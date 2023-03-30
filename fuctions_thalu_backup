@@ -1,0 +1,871 @@
+<?php
+
+add_image_size( 'producto-miniatura', '325', '270', true );
+add_image_size( 'oportunidad-miniatura', '300', '320', true );
+add_image_size( 'novedad-miniatura', '440', '290', true );
+
+function thalu_scripts_with_jquery()
+{
+  
+  // Register the script like this for a theme:
+  wp_register_script( 'bootstrap-script', get_template_directory_uri() . '/bootstrap/js/bootstrap.js', array( 'jquery' ) );
+  wp_register_script( 'theme-script', get_template_directory_uri() . '/theme.js', array( 'jquery' ) );
+  wp_register_script( 'modernizr-script', get_template_directory_uri() . '/modernizr.js', array( 'jquery' ) );
+  wp_register_script( 'wow-script', get_template_directory_uri() . '/js/wow.min.js', array( 'jquery' ) );
+    wp_register_script( 'owlcarousel', get_template_directory_uri() . '/js/OwlCarousel/owl.carousel.min.js', array( 'jquery' ) );
+  wp_register_script( 'waypoint', get_template_directory_uri() . '/js/waypoint/waypoint.js', array( 'jquery' ) );
+
+  // For either a plugin or a theme, you can then enqueue the script:
+
+  wp_enqueue_script( 'bootstrap-script' );
+  wp_enqueue_script( 'modernizr-script' );
+  wp_enqueue_script( 'theme-script' );
+  wp_enqueue_script( 'wow-script' );
+  wp_enqueue_script( 'owlcarousel' );
+  wp_enqueue_script( 'waypoint' );
+ 
+  wp_enqueue_style( 'animate-style', get_stylesheet_directory_uri() . '/animate.css' );
+  wp_enqueue_style( 'bootstrap-style', get_stylesheet_directory_uri() . '/bootstrap/css/bootstrap.css');
+  wp_enqueue_style( 'owl-style', get_stylesheet_directory_uri() . '/js/OwlCarousel/assets/owl.carousel.min.css');
+  
+}
+function thalu_css(){
+   wp_enqueue_style( 'child-style',get_stylesheet_directory_uri() . '/style_thalu.css','', 4);
+}
+add_action( 'wp_enqueue_scripts', 'thalu_scripts_with_jquery' );
+add_action( 'wp_enqueue_scripts', 'thalu_css',18 );
+if ( function_exists( 'add_theme_support' ) ) { 
+  add_theme_support( 'post-thumbnails' );
+  add_theme_support( 'nav-menus' );
+  add_theme_support( 'widgets' );
+}
+
+//agregar en el wp-config
+//define('ALLOW_UNFILTERED_UPLOADS', true);
+function cc_mime_types($mimes) {
+ $mimes['svg'] = 'image/svg+xml';
+ return $mimes;
+}
+add_filter('upload_mimes', 'cc_mime_types');
+
+require_once('wp_bootstrap_navwalker.php');
+function my_bootstrap_menu($p_nombre='principal'){
+ 
+  ?><!-- navbar start -->
+                <!-- ================ -->
+  <nav id="<?=$p_nombre?>" class="navbar navbar-light navbar-expand-lg justify-content-between">
+<!-- 
+  <a class="navbar-brand" href="<?php echo home_url() ?>">
+    <img id="logo" src="<?php echo get_template_directory_uri();?>/images/logo.png" alt="<?php bloginfo('name'); ?>">
+  </a> -->
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#<?=$p_nombre?>-navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <?php
+    wp_nav_menu( 
+         array(
+                'menu'              => $p_nombre,
+                'theme_location'    => $p_nombre,
+                'depth'             => 2,
+                'container'         => 'div',
+                'container_class'   => 'collapse navbar-collapse',
+                'container_id'      => $p_nombre.'-navbarNavDropdown',
+                'menu_class'        => 'nav navbar-nav ml-auto nav-'.$p_nombre,
+                'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',
+                'walker'            => new wp_bootstrap_navwalker())
+         ); 
+
+  ?>
+</nav>         
+  
+     <?php   
+}
+add_action('init', 'myStartSession', 1);
+function myStartSession() {
+    if(!session_id()) {
+        session_start();
+    }
+}
+
+add_action('wp_head', 'favicon');
+
+
+
+add_action('login_head', 'custom_login_logo');
+function custom_login_logo() { 
+        echo '<style type="text/css">
+        h1 a { background-image: url('.get_bloginfo('stylesheet_directory').'/images/logo.png) !important; }
+        .login h1 a {
+	background-size: 300px;
+	height: 130px!important;
+	width: auto!important;
+	}
+
+	#login {
+	padding: 4%!important;
+	}
+
+        </style>';
+}
+
+function arphabet_widgets_init() {
+
+  register_sidebar( array(
+    'name'          => 'Home Abajo',
+    'id'            => 'home_abajo',
+
+  ) );
+
+   register_sidebar( array(
+    'name'          => 'Pie de pagina Derecho',
+    'id'            => 'footer_derecha',
+
+  ) );
+
+    register_sidebar( array(
+    'name'          => 'Lateral Internas',
+    'id'            => 'sidebar',
+
+  ) );
+
+
+}
+add_action( 'widgets_init', 'arphabet_widgets_init' );
+function banda_menu(){
+	echo "<div class='banda_menu'></div>";
+}
+function mi_content_head(){
+	echo "<div class='content_head'>";
+}
+function end_mi_content_head(){
+	echo "</div>";
+}
+function footer_abcontent(){
+	echo "<div class='footer_container'>";
+	echo "<div class='footer_content'>";
+}
+function footer_becontent(){
+	echo "</div>";
+	echo "</div>";
+}
+
+function menu_superior(){
+	wp_nav_menu( array('menu' => 'top_head' ));
+}
+
+
+
+function favicon() {
+ 
+ echo '<link rel="Shortcut Icon" type="image/x-icon" href="'.get_bloginfo('stylesheet_directory').'/images/favicon.png" />';
+}
+function desarrolla_thalu(){
+	echo '
+	<div id="pie0">
+				<div id="contenedor">
+				
+				<div id="thalu">
+					<a href="http://www.thalu.net/" target="_blank">
+						<div id="logo" class="siteinfo"></div>
+					<div id="desarrollo" class="siteinfo">Dise&ntilde;o y Desarrollo por </div></a>
+				</div>
+				</div>
+			</div>';
+
+}
+
+
+function mostrarBloque($id){
+
+  $bloque = pods( 'bloque',array( 
+    'where'=>"sucursal.name = '".$_SESSION['sucursal']."' and id='".$id."'" 
+  )); 
+  
+  $image = wp_get_attachment_image_src(get_post_thumbnail_id($id),'full');
+  ?>
+
+   <div id="bloque<?= $id ?>" class="bloque flash-fx" style="background-image: url('<?= $image[0] ?>')" >
+           <?php if($bloque->field('link')) 
+                  echo '<a href="'.$bloque->field('link').'">';
+           ?>
+          <div class="flash-back-fx"></div>
+          <div class="mask desktop"></div> 
+          <?php if($bloque->field('titulo')) ?>
+            <div class="titulo">
+            <h3> <?= $bloque->field('titulo') ?> </h3>
+            <?php
+            if($bloque->field('titulo')=='Amoblamientos'){
+              echo '<img src="/wp-content/uploads/2019/09/johnson.svg" />';
+            }
+          ?>
+            <div class="linearoja"></div>
+          </div>
+           
+           <?php if($bloque->field('link')) echo "</a>" ?>
+
+              
+    </div>
+  <?php
+
+}
+function productos(){
+
+  $producto = pods( 'producto',array( 
+    'where'=>"sucursal.name = '".$_SESSION['sucursal']."' " ));
+  
+
+
+   while ( $producto->fetch() ) { 
+      $image = $producto->field('post_thumbnail_url.producto-miniatura');
+      $i++;
+  ?>
+  <div class="col-lg-3 col-6"> 
+   <div id="producto<?= $i ?>" class="producto-item flash-fx" style="background-image: url('<?= $image ?>')" >
+    <div class="flash-back-fx"></div>
+          <a href="<?= $producto->field('permalink') ?>">
+           
+          
+          <div class="mask desktop"></div> 
+          <?php if($producto->field('title')) ?>
+          <div class="titulo">
+            <h3> <?= $producto->field('title') ?> </h3>
+            <?php
+            if($producto->field('logo_marca')){
+              $marca=$producto->field('logo_marca');
+             echo '<img src="'.$marca['guid'].'" />';
+            }
+          ?>
+            <div class="linearoja"></div>
+          </div>
+           
+           </a>
+
+              
+    </div>
+  </div>
+
+  <?php
+    }
+
+}
+
+function slider($grupo){
+
+  $slides = pods( 'slide',array( 
+    'where'=>"slider.name='".$grupo."' and sucursal.name = '".$_SESSION['sucursal'] ."'",
+    'orderby'=>'orden'
+  )); 
+  
+  
+
+?>
+
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <div class="indicators-content">
+    <ol class="carousel-indicators">
+      <?php
+      $active='active';
+
+      for($i=0;$i<$slides->total();$i++){
+        ?>
+        <li data-target="#carouselExampleIndicators" data-slide-to="<?= $i ?>" class="<?= $active ?>"></li>
+      <?php
+        $active="";
+      }
+      ?>
+    </ol>
+    </div>
+    <div class="carousel-inner">
+      
+
+      <?php
+      $active='active';
+     while ( $slides->fetch() ) { 
+
+        $image = wp_get_attachment_image_src(get_post_thumbnail_id($slides->field('id')),'full');
+      ?>
+        <div class="carousel-item <?= $active ?>">
+          <div class="fondo" style="background-image: url(<?= $image[0] ?>)">
+            <div class="izquierda">
+                <div class="slide-titulo"><?= $slides->field('cuerpo'); ?></div>
+
+                <a class="btn boton"  href="<?= $slides->field('link') ?>"> <?= $slides->field('boton') ?></a>
+            </div>
+
+
+          </div>
+
+       
+        </div>
+
+        <?php
+
+        $active='';
+     }
+     ?>
+      </div>
+     
+     
+    </div>
+    <div class="container position-relative">
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+    </div>
+  </div>
+<?php
+}
+
+function carrousel_marcas(){
+
+   $marcas = pods( 'marca',array( 
+    'where'=>"sucursal.name = '".$_SESSION['sucursal'] ."'",
+    'orderby'=>'orden'
+  )); 
+  
+  
+
+  ?>
+  <div id="carrousel-marcas" class="owl-carousel">
+  <?php
+    while ( $marcas->fetch() ) { 
+      $image = wp_get_attachment_image_src(get_post_thumbnail_id($marcas->field('id')),'full');
+      
+    ?>
+
+    <div class=""> <img src="<?= $image[0] ?>" /></div>
+
+    <?php
+
+    }
+
+   ?>
+  </div>
+  <script>
+    jQuery(document).ready(function(){
+      jQuery(".owl-carousel").owlCarousel({
+  
+        loop:true,
+        items:3,
+        center:true,
+        autoplay:true,
+        navText: '',
+        nav: true,
+        responsive : {
+            // breakpoint from 0 up
+            0 : {
+                items : 2,
+                autoWidth:true
+            },
+            480 : {
+                items : 3,
+                autoWidth:true
+            },
+            // breakpoint from 480 up
+            992 : {
+                items : 3,
+                autoWidth:true
+                
+            }
+        }
+      }
+    );
+    });
+
+  </script>
+  <?php
+}
+function sucursales(){
+
+   $sucursal = pods('sucursal'); 
+  
+  $sucursales = get_terms( array(
+    'taxonomy' => 'sucursal'));
+
+  switch ($_SESSION['sucursal']) {
+    case 'Jujuy':
+      $idsucursal=0;
+      break;
+    case 'Salta':
+      $idsucursal=1;
+      break;
+    case 'Santiago del Estero':
+      $idsucursal=2;
+      break;
+    
+    default:
+      # code...
+      break;
+  }
+
+  ?>
+ 
+  <?php
+  $select=$info=$imagenes="";
+
+
+    foreach ($sucursales as $key => $value) {
+       //print_r(get_term_meta($value->term_id,'direccion'));
+      $imagen=get_term_meta($value->term_id,'imagen_sucursal', true);
+      //print_r($imagen);
+      $imagenes.='<img class="sucursal-imagen element-'.$key.'" src="'.$imagen['guid'] .'"/>';
+      $select.='<option id="'.$key.'"';
+      if($key==$idsucursal){
+        $select.='selected';
+      }
+      
+      $select.=' value="'.$key.'">'.$value->name.'</option>';
+    
+    //var_dump(get_term_meta($value->term_id,'telefono'));
+      $info.='
+      <div id="info-'.$key.'"" class="info element-'.$key.'">
+        <div class="direccion">'.get_term_meta($value->term_id,'direccion')[0].'</div>
+        <div class="telefono">'.get_term_meta($value->term_id,'telefono')[0].'</div>
+        <div class="horario">'.get_term_meta($value->term_id,'horario')[0].'</div>
+        <div class="facebook"><a href="https://www.facebook.com'.get_term_meta($value->term_id,'facebook')[0].'" tarjet="_blank">'.get_term_meta($value->term_id,'facebook')[0].'</a></div>
+      </div>';  
+    
+    }
+    $select='<select id="sucursal" class="form-control">'.$select.'</select>';
+
+  ?>
+   
+      <div class="col-md-8 desktop">
+        <?= $imagenes ?>
+      </div>
+      <div class="col-lg-4 col-md-12">
+        <h2>¡Visitá nuestro salón de ventas!</h2>
+        <div class="col-md-8">
+        <?= $select ?>
+        </div>
+        <div class="mobile">
+        <?= $imagenes ?>
+      </div>
+        <div class="sucursal-info">
+        <?= $info ?>
+        </div>
+
+      </div>
+
+  
+    
+  <script>
+
+    function showSucursal(id){
+        jQuery('.info').css('display','none');
+        jQuery('.sucursal-imagen').css('display','none');
+
+        jQuery('.element-'+id).css('display','block');
+        
+
+    }
+
+    jQuery(document).ready(function(){
+        showSucursal(<?= $idsucursal ?>);
+    });
+    jQuery('#sucursal').change(function(){
+        showSucursal(jQuery("#sucursal").val());
+    });
+
+
+  </script>
+<?php
+}
+
+function oportunidades(){
+
+   $oportunidad = pods( 'oportunidad',array( 
+    'where'=>"sucursal.name = '".$_SESSION['sucursal'] ."' "
+  )); 
+  
+  if(!$oportunidad->total()){
+    return false;
+  }
+    while ( $oportunidad->fetch() ) { 
+      $image = $oportunidad->field('post_thumbnail_url.oportunidad-miniatura');
+      //$image = wp_get_attachment_image_src(get_post_thumbnail_id($oportunidad->field('id')),'full');
+      
+    ?>
+    <div class="col-lg-6 col-md-10  row">
+      <div class="col-md-6">
+        <img src="<?= $image ?>" class="img-fluid"/>
+      </div>  
+      <div class="col-md-6">
+        <h2 class="titulo"><?= $oportunidad->field('title') ?> </h2>
+        <div class="bajada"><?= $oportunidad->field('bajada') ?> </div>
+        <div class="excerpt"><?= $oportunidad->field('excerpt') ?> </div>
+        <a href="<?= $oportunidad->field('permalink') ?>" class="btn boton"> + Información</a>
+
+      </div>  
+    </div>
+
+
+<?php
+  }
+  return true;
+}
+
+function oportunidades_home($contenidos=null){
+
+   $oportunidad = pods( 'oportunidad',array( 
+    'where'=>"sucursal.name = '".$_SESSION['sucursal'] ."' and ubicacion.slug='home'",
+    'limit'=>1
+  )); 
+   //print_r($contenidos);
+   if($oportunidad->total()){
+      if($contenidos){
+    ?>
+     <h1> <?= $contenidos->field('oportunidades_titulo') ?> </h1>
+          <div class="bajada"> <?= $contenidos->field('oportunidades_bajada')  ?>  </div>
+   
+    <?php } ?>
+
+  <div id="oportunidad-destacada" class="row">
+  <?php
+    while ( $oportunidad->fetch() ) { 
+      $image = wp_get_attachment_image_src(get_post_thumbnail_id($oportunidad->field('id')),'full');
+      
+    ?>
+    <div class="col-md-6">
+      <img src="<?= $image[0] ?>" class="img-fluid"/>
+    </div>  
+    <div class="col-md-6">
+      <div class="titulo "><?= $oportunidad->field('title') ?> </div>
+      <div class="bajada "><?= $oportunidad->field('bajada') ?> </div>
+      <div class="excerpt desktop"><?= $oportunidad->field('excerpt') ?> </div>
+      <a href="<?= $oportunidad->field('permalink') ?>" class="btn boton"> + Información</a>
+
+    </div>  
+
+
+<?php
+  }
+?>
+  </div>
+<?php
+  }
+  else{
+    $sucursal = get_terms( array(
+    'taxonomy' => 'sucursal','name'=>$_SESSION['sucursal']));
+        
+    //var_dump($sucursal);die();
+    $value=$sucursal[0];
+    //print_r($value);
+    ?>
+    <div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v3.3&appId=521760644557406&autoLogAppEvents=1"></script>
+      <div id="facebook-iframe" class="col-md-6">
+          <h3>Seguinos en facebook </h3>
+          <div class="fb-page" data-href="https://www.facebook.com<?=get_term_meta($value->term_id,'facebook')[0]?>/" data-tabs="timeline" data-width="" data-height="" data-small-header="true" data-adapt-container-width="false" data-hide-cover="true" data-show-facepile="false"><blockquote cite="https://www.facebook.com<?=get_term_meta($value->term_id,'facebook')[0]?>/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com<?=get_term_meta($value->term_id,'facebook')[0]?>/">Supermat</a></blockquote></div>
+      </div>
+    <?php
+  }
+}
+function servicios(){
+
+   $servicios = pods( 'servicio',array( 
+    'where'=>"sucursal.name = '".$_SESSION['sucursal'] ."' ",
+    'orderby' => 'orden'
+  )); 
+  
+  
+
+  ?>
+  <div id="servicios-contenidos" class="row">
+  <?php
+    $t=0;
+    while ( $servicios->fetch() ) { 
+      $image = wp_get_attachment_image_src(get_post_thumbnail_id($servicios->field('id')),'full');
+        $t+=.2;
+    ?>
+    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="<?= $t?>s">
+      <div class="servicio-container ">
+        <div class="imagen">
+          <div class="imagen-cel">
+          <img src="<?= $image[0] ?>" class="img-fluid" />
+          </div>
+        </div>
+      <h3 class="titulo"><?= $servicios->field('title') ?> </h3>
+      <p> <?= $servicios->field('content') ?> </p>
+    </div>
+    </div>  
+
+
+<?php
+  }
+  ?>
+  </div>
+<?php
+}
+function novedades(){
+
+   $novedades = pods( 'novedad',array( 
+    'where'=>"sucursal.name = '".$_SESSION['sucursal'] ."' and ubicacion.slug='home'",
+    'orderby' => 'date DESC'
+  )); 
+  
+  
+
+  ?>
+  <div id="novedades-contenidos" class="row">
+  <?php
+    while ( $novedades->fetch() ) { 
+      $image = $novedades->field('post_thumbnail_url.novedad-miniatura');
+      //$image = wp_get_attachment_image_src(get_post_thumbnail_id($novedades->field('id')),'full');
+      
+    ?>
+    <div class="col-md-4 novedad-item">
+      <a href="<?= $novedades->field('permalink') ?>" ><img src="<?= $image ?>" class="img-fluid" /></a>
+      <div class="info-container">
+        <div class="fecha"> <?= get_the_date('',$novedades->field('ID')) ?></div>
+        <a href="<?= $novedades->field('permalink') ?>"><h3 class="titulo"><?= $novedades->field('title') ?> </h3></a>
+        <a href="<?= $novedades->field('permalink') ?>" class="leer-mas"> Leer más </a>
+      </div>
+
+    </div>  
+
+
+<?php
+  }
+  ?>
+  </div>
+<?php
+}
+
+function novedades_producto(){
+
+   $novedades = pods( 'novedad',array( 
+    'where'=>"sucursal.name = '".$_SESSION['sucursal'] ."' and ubicacion.slug='home'",
+    'orderby' => 'date DESC',
+    'limit'=>2
+  )); 
+  
+  
+
+  ?>
+  <div id="novedades-destacadas" class="row">
+  <?php
+    while ( $novedades->fetch() ) { 
+      $image = wp_get_attachment_image_src(get_post_thumbnail_id($novedades->field('id')),'full');
+      
+    ?>
+    <div class="col-md-6">
+      <img src="<?= $image[0] ?>" class="img-fluid" />
+      <h4 class="titulo"><?= $novedades->field('title') ?> </h4>
+      <a href="<?= $novedades->field('permalink') ?>" class="leer-mas"> Leer más </a>
+
+    </div>  
+
+
+<?php
+  }
+  ?>
+  </div>
+<?php
+}
+
+
+
+
+function novedades_home(){
+
+   $novedades = pods( 'novedad',array( 
+    'where'=>"sucursal.name = '".$_SESSION['sucursal'] ."' and ubicacion.slug='home'",
+    'orderby' => 'date DESC',
+    'limit'=>2
+  )); 
+  
+  
+
+  ?>
+  <div id="novedades-destacadas" class="row">
+  <?php
+    while ( $novedades->fetch() ) { 
+      $image = wp_get_attachment_image_src(get_post_thumbnail_id($novedades->field('id')),'full');
+      
+    ?>
+    <div class="col-md-6">
+      <img src="<?= $image[0] ?>" class="img-fluid" />
+      <h3 class="titulo"><?= $novedades->field('title') ?> </h3>
+      <a href="<?= $novedades->field('permalink') ?>" class="leer-mas"> Leer más </a>
+
+    </div>  
+
+
+<?php
+  }
+  ?>
+  </div>
+<?php
+}
+
+function limitar_palabras( $str, $num, $append_str='' ) {
+  $palabras = preg_split( '/[\s]+/', $str, -1, PREG_SPLIT_OFFSET_CAPTURE );
+  if( isset($palabras[$num][1]) ){
+    $str = substr( $str, 0, $palabras[$num][1] ) . $append_str;
+  }
+  unset( $palabras, $num );
+  return trim( $str );
+}
+
+/////////////////////// AGREGA EL COMBO PARA ESTILOS EN EL EDITOR //////////////////////////
+// Callback function to insert 'styleselect' into the $buttons array
+
+function my_mce_buttons_2( $buttons ) {
+	array_unshift( $buttons, 'styleselect' );
+	return $buttons;
+}
+// Register our callback to the appropriate filter
+add_filter('mce_buttons_2', 'my_mce_buttons_2');
+//add_editor_style('css_editor_estilos.css');
+function plugin_mce_css( $mce_css ) {
+	if ( ! empty( $mce_css ) )
+		$mce_css .= ',';
+
+	$mce_css .= plugins_url( 'css_editor_estilos.css', __FILE__ );
+
+	return $mce_css;
+}
+add_filter( 'mce_css', 'plugin_mce_css' );
+
+///////////////////////////////////////////////////////////////////////////////////////////
+function redimensionar($ancho_esp,$alto_esp,  $entidad){
+  if(get_post_thumbnail_id($entidad)>0) $i=get_post_thumbnail_id($entidad);
+  else $i=$entidad;
+ $imagen=wp_get_attachment_image_src( $i, "full");//podria usar el full pero no esa redimensionando img de 1400px
+ $rut=strstr($imagen[0],'/wp-content');
+  $alt=$imagen[2];
+  $anc=$imagen[1];
+  $crop = true;                                                                  // Optional. Defaults to 'true'
+  $retina =false;       
+
+  
+      //h y w valores esperados
+  if($alt==$alto_esp and $anc==$ancho_esp){
+    $h=$alto_esp;
+    $w=$ancho_esp;
+    $zc=0;
+  }
+  else{
+    //ambos valores mayores a los esperados
+    if($alt>$alto_esp and $anc>$ancho_esp){
+      $h=$alto_esp;
+      $w=$ancho_esp;
+      $zc=1;
+    }
+    //ambos valores menores a lo esperado
+    if($alt<$alto_esp and $anc<$ancho_esp){
+      $h=$alt;
+      $w=$anc;
+      $zc=0;
+    }
+    //ancho mayor a 620  y alto menor a 420
+    if($anc>$ancho_esp and $alt<=$alto_esp){
+      $h=$alt;
+      $w=$ancho_esp;
+      $zc=3;
+    }
+    //ancho menor a 620 y alto mayor a 420
+    if($anc<=$ancho_esp and $alt>$alto_esp){
+      $h=$alto_esp;
+      $w=$anc;
+      $zc=3;
+    }
+
+  }
+ 
+     $ruta=get_bloginfo('url').'/wp-content/dev/timthumb/timthumb.php?src='.$rut.'&w='.$w.'&h='.$h.'&a=c'.'&zc='.$zc.'&q=95';
+     return $ruta;                                                     // Optional. Defaults to 'false'
+  
+}
+
+function redimensionarURL($ancho_esp,$alto_esp,  $rut){
+
+ //$imagen=wp_get_attachment_image_src( $i, "full");//podria usar el full pero no esa redimensionando img de 1400px
+ 
+ $imagen_path=parse_url($rut);
+ $t = getimagesize(get_home_path_thalu().$imagen_path['path']);
+ 
+ 
+  $alt=$t[1];
+  $anc=$t[0];
+  $crop = true;                                                                  // Optional. Defaults to 'true'
+  $retina =false;       
+
+  
+      //h y w valores esperados
+  if($alt==$alto_esp and $anc==$ancho_esp){
+    $h=$alto_esp;
+    $w=$ancho_esp;
+    $zc=0;
+  }
+  else{
+    //ambos valores mayores a los esperados
+    if($alt>$alto_esp and $anc>$ancho_esp){
+      $h=$alto_esp;
+      $w=$ancho_esp;
+      $zc=1;
+    }
+    //ambos valores menores a lo esperado
+    if($alt<$alto_esp and $anc<$ancho_esp){
+      $h=$alt;
+      $w=$anc;
+      $zc=0;
+    }
+    //ancho mayor a 620  y alto menor a 420
+    if($anc>$ancho_esp and $alt<=$alto_esp){
+      $h=$alt;
+      $w=$ancho_esp;
+      $zc=3;
+    }
+    //ancho menor a 620 y alto mayor a 420
+    if($anc<=$ancho_esp and $alt>$alto_esp){
+      $h=$alto_esp;
+      $w=$anc;
+      $zc=3;
+    }
+
+  }
+ 
+     $ruta=get_bloginfo('url').'/wp-content/dev/timthumb/timthumb.php?src='.$rut.'&amp;w='.$w.'&amp;h='.$h.'&amp;a=c'.'&amp;zc='.$zc.'&amp;q=95';
+     return $ruta;                                                     // Optional. Defaults to 'false'
+  
+}
+function get_home_path_thalu() {
+  $home    = set_url_scheme( get_option( 'home' ), 'http' );
+  $siteurl = set_url_scheme( get_option( 'siteurl' ), 'http' );
+  if ( ! empty( $home ) && 0 !== strcasecmp( $home, $siteurl ) ) {
+    $wp_path_rel_to_home = str_ireplace( $home, '', $siteurl ); /* $siteurl - $home */
+    $pos = strripos( str_replace( '\\', '/', $_SERVER['SCRIPT_FILENAME'] ), trailingslashit( $wp_path_rel_to_home ) );
+    $home_path = substr( $_SERVER['SCRIPT_FILENAME'], 0, $pos );
+    $home_path = trailingslashit( $home_path );
+  } else {
+    $home_path = ABSPATH;
+  }
+
+  return str_replace( '\\', '/', $home_path );
+}
+function special_gallery($p){
+    $special_gallery = get_post_gallery($p,false);
+    //print_r($special_gallery);die();
+    $ids = explode( ",", $special_gallery['ids'] );
+    if($ids[0]){
+      $rtn='<ul class="cf">';
+      foreach( $ids as $id ) {
+        $link   = wp_get_attachment_url( $id );
+          //$image  =  wp_get_attachment_image( $id, "medium");
+          $rtn.='<li><img src="'.redimensionarURL('auto',500,$link).'"><span class="capacidad">'. get_the_title($id).'</span></li>';
+    }
+    $rtn.='</ul>';
+        echo $rtn;
+    }
+}
+
+?>
